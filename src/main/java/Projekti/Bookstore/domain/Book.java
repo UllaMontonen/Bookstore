@@ -1,9 +1,17 @@
 package Projekti.Bookstore.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity 
 public class Book {
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	private String title, author, isbn;
-	private int price, year;
+	private int price, bookyear;
 	
 	
 	public Book() {
@@ -11,11 +19,12 @@ public class Book {
 	}
 
 
-	public Book(String title, String author, int year, String isbn, int price) {
+
+	public Book(String title, String author, int bookyear, String isbn, int price) {
 		super();
 		this.title = title;
 		this.author = author;
-		this.year = year;
+		this.bookyear = bookyear;
 		this.isbn = isbn;
 		this.price = price;
 	}
@@ -41,13 +50,23 @@ public class Book {
 	}
 
 
-	public int getYear() {
-		return year;
+	public Long getId() {
+		return id;
 	}
 
 
-	public void setYear(int year) {
-		this.year = year;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public int getBookyear() {
+		return bookyear;
+	}
+
+
+	public void setBookyear(int bookyear) {
+		this.bookyear = bookyear;
 	}
 
 
