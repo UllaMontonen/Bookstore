@@ -19,11 +19,18 @@
 			<input type="text" id="isbn" th:field="*{isbn}" />
 			<div style="clear: both; display: block; height: 10px;"></div>
 			<label for="bookyear">Year</label>
-			<input type="number" id="bookyear" th:field="*{bookyear}" />
+			<input type="number" min="1000" id="bookyear" th:field="*{bookyear}" />
 			<div style="clear: both; display: block; height: 10px;"></div>
 			<label for="price">Price</label>
-			<input type="number" id="price" th:field="*{price}" />
+			<input type="number" min="1" id="price" th:field="*{price}" />
 			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="catlist">Category</label>
+			<select id="catlist" th:field="*{category}" class="form-control">
+       			<option th:each="category: ${categories}" th:value="${category.categoryid}" th:text="${category.name}"></option>
+    		</select>
+			
+			
 			<input type="submit" class="btn btn-success" value="Save"></input>
 		</form>
 	</div>

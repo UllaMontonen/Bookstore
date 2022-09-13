@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 import Projekti.Bookstore.domain.Book;
 import Projekti.Bookstore.domain.BookRepository;
+import Projekti.Bookstore.domain.Category;
+import Projekti.Bookstore.domain.CategoryRepository;
 
 
 @SpringBootApplication
@@ -21,14 +23,19 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository) {
+	public CommandLineRunner bookDemo(BookRepository brepository, CategoryRepository crepository) {
 		return (args) -> {
 			log.info("save a couple of books");
-			repository.save(new Book("Päättäjäisilta", "Matthew Costello", 2020, "9789520418168", 7));
-			repository.save(new Book("Käärmeen kirous", "Elly Griffiths", 2019, "9789520404512", 22));	
+			crepository.save(new Category("Mystery"));
+			crepository.save(new Category("Romance"));
+			crepository.save(new Category("Fantasy"));
 			
-			log.info("fetch all students");
-			for (Book book : repository.findAll()) {
+			brepository.save(new Book("Päättäjäisilta", "Matthew Costello", 2020, "9789520418168", 7, crepository.findByName("Mystery").get(0)));
+			brepository.save(new Book("Käärmeen kirous", "Elly Griffiths", 2019, "9789520404512", 22, crepository.findByName("Mystery").get(0)));
+			brepository.save(new Book("Taru sormusten herrasta", "J.R.R. Tolkien", 1955, "978-951-0-33337-2", 55, crepository.findByName("Fantasy").get(0)));
+			
+			log.info("fetch all books");
+			for (Book book : brepository.findAll()) {
 				log.info(book.toString());
 			}
 
