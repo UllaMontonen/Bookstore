@@ -1,11 +1,12 @@
 package Projekti.Bookstore.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import Projekti.Bookstore.domain.BookRepository;
 import Projekti.Bookstore.domain.CategoryRepository;
@@ -22,14 +23,15 @@ public class BookController {
 	private CategoryRepository crepository;
 	
 		// Show all books
-	 	@RequestMapping(value= {"/", "/booklist"})
+	 	@GetMapping({"/", "/booklist"})
 	    public String bookList(Model model) {	
 	        model.addAttribute("books", repository.findAll());
 	        return "booklist";
 	    }
 	  
 	 	// Add new book
-	    @RequestMapping(value = "/add")
+	 	@PreAuthorize("hasAuthority('ADMIN')") // only admin can add books
+	    @GetMapping("/add")
 	    public String addBook(Model model){
 	    	model.addAttribute("book", new Book());
 	    	model.addAttribute("categories", crepository.findAll());
@@ -37,21 +39,23 @@ public class BookController {
 	    }     
 	    
 	    // Save new book
-	    @RequestMapping(value = "/save", method = RequestMethod.POST)
+	    @PostMapping("/save")
 	    public String save(Book book){
 	        repository.save(book);
 	        return "redirect:booklist";
 	    }    
 
 	    // Delete book
-	    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	    @PreAuthorize("hasAuthority('ADMIN')") // only admin can delete books
+	    @GetMapping("/delete/{id}")
 	    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
 	    	repository.deleteById(bookId);
 	        return "redirect:../booklist";
 	    }     
 	    
 	    // Edit book
-	    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	    @PreAuthorize("hasAuthority('ADMIN')") // only admin can edit books
+	    @GetMapping("/edit/{id}")
 	    public String editBook(@PathVariable("id") Long bookId, Model model) {
 	    	model.addAttribute("book", repository.findById(bookId));
 	    	model.addAttribute("categories", crepository.findAll());
