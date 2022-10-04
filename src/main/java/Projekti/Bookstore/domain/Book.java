@@ -38,6 +38,14 @@ public class Book {
 		this.category = category;
 	}
 
+	public Book(String title, String author, int bookyear, String isbn, int price) {
+		super();
+		this.title = title;
+		this.author = author;
+		this.bookyear = bookyear;
+		this.isbn = isbn;
+		this.price = price;
+	}
 
 	public String getTitle() {
 		return title;
