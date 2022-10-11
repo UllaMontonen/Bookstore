@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import Projekti.Bookstore.domain.ApplicationUserRepository;
 import Projekti.Bookstore.domain.Book;
@@ -27,7 +28,7 @@ public class RepositoryTests {
 	// Testataan hakua - ei toimi - laita opettajalle
 	@Test
 	public void findBook() {
-		Book book = bookRepository.findById((long) 1).get();
+		Book book = bookRepository.findById((long) 5).get();
 		System.out.println("Haetaan id:llä 2 " + book);
 		assertEquals(book.getAuthor(), "Elly Griffiths");
 	}
@@ -52,7 +53,8 @@ public class RepositoryTests {
 	// Testataan kirjan poistamista
 	@Test
 	public void deleteBook() {
-		bookRepository.deleteById((long) 1);
+		Optional<Book> poistettava = bookRepository.findById((long) 5);
+		bookRepository.deleteById(poistettava.get().getId());
 		
 	}
 	
